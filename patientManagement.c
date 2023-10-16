@@ -39,10 +39,6 @@ struct Node* createNode(const char* symptom)
     return node;
 }
 
-
-
-
-
 void searchByName(const char* name);
 void calculateFee(const char date[]);
 void scheduleAppointment();
@@ -61,7 +57,8 @@ int main()
         printf("Press 2 to add old patient's information\n");
         printf("Press 3 to delete information of a patient\n");
         printf("Press 4 to search by name\n");
-        printf("Press 5 to exit\n");
+        printf("Press 5 to identify disease\n");
+        printf("Press 6 to exit\n");
 
         printf("\nEnter your choice: ");
         scanf("%d", &ch);
