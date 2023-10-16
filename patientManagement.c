@@ -23,6 +23,25 @@ struct node2
 
 struct node2* top = NULL;
 
+struct Node
+{
+    char symptom[100];
+    struct Node* yes;
+    struct Node* no;
+};
+
+struct Node* createNode(const char* symptom)
+{
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+    strcpy(node->symptom, symptom);
+    node->yes = NULL;
+    node->no = NULL;
+    return node;
+}
+
+
+
+
 
 void searchByName(const char* name);
 void calculateFee(const char date[]);
@@ -82,6 +101,32 @@ int main()
         }
 
         case 5:
+        {
+            struct Node* root = createNode("fever");
+            root->yes = createNode("cough");
+            root->no = createNode("headache");
+            root->yes->yes = createNode("sore throat");
+            root->yes->no = createNode("shortness of breath");
+            root->no->yes = createNode("runny nose");
+            root->no->no = createNode("body aches");
+            root->yes->yes->yes = createNode("tonsillitis");
+            root->yes->yes->no = createNode("common cold");
+            root->yes->no->yes = createNode("asthma");
+            root->yes->no->no = createNode("bronchitis");
+            root->no->yes->yes = createNode("allergies");
+            root->no->yes->no = createNode("sinusitis");
+            root->no->no->yes = createNode("flu");
+            root->no->no->no = createNode("COVID-19");
+            root->yes->yes->yes->yes = createNode("streptococcal infection");
+            root->yes->no->yes->yes = createNode("respiratory infection");
+            root->no->yes->yes->yes = createNode("hay fever");
+
+            identifyDisease(root);
+            break;
+        }
+
+
+        case 6:
             exit(0);
 
         default:
@@ -342,3 +387,31 @@ void delete_patient(int number)
     printf("No patient found with the given number.\n");
 }
 
+void identifyDisease(struct Node* root)
+{
+    struct Node* current = root;
+
+    while (current->yes != NULL && current->no != NULL)
+    {
+        printf("%s (yes/no): ", current->symptom);
+
+        char choice[10];
+        scanf("%s", choice);
+
+        if (strcmp(choice, "yes") == 0)
+        {
+            current = current->yes;
+        }
+        else if (strcmp(choice, "no") == 0)
+        {
+            current = current->no;
+        }
+        else
+        {
+            printf("Invalid choice!\n");
+            return;
+        }
+    }
+
+    printf("The identified disease is: %s\n", current->symptom);
+}
